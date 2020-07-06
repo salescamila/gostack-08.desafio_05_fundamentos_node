@@ -22,6 +22,11 @@ class CreateTransactionService {
   }
 
   public execute({ title, value, type }: RequestDTO): Transaction {
+    // Check type of transaction
+    if ( type != 'income' && type != 'outcome'){
+      throw new Error('Wrong type of transaction!');
+    }
+    
     // Check total available in acount
     if (type == 'outcome'){
       const balance = this.transactionsRepository.getBalance();
