@@ -1,7 +1,7 @@
 import Transaction from '../models/Transaction';
 
 interface Balance {
-  id: string;
+ // id: string;
   income: number;
   outcome: number;
   total: number;
@@ -25,7 +25,22 @@ class TransactionsRepository {
   }
 
   public getBalance(): Balance {
-    // TODO
+    let income : number = 0;
+    let outcome: number = 0;
+    let total  : number = 0;
+
+    this.transactions.map(transaction => {
+      if (transaction.type == 'income') {
+        income += transaction.value;
+      } 
+      if (transaction.type == 'outcome') {
+        outcome += transaction.value;
+      } 
+    })
+
+    total = income - outcome;
+
+    return { income, outcome, total };
   }
 
   public create({ title, value, type }: CreateTransactionDTO): Transaction {
